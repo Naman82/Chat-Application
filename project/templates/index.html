@@ -7,15 +7,24 @@
     <title>Chat-Application</title>
 </head>
 <body>
-    <h1>Hello World</h1>
+    <!-- <h1>Hello World</h1> -->
+    <textarea name="" id="display-box" cols="80" rows="30"></textarea>
+    <br>
+    <br>
+    <input type="text" name="" id="chat">
+    <br>
+    <br>
+    <input type="button" value="Send" id="send-btn">
 
     <script>
         var ws = new WebSocket("ws://127.0.0.1:8000/ws/sc/")
         ws.onopen = function(){
-            ws.send('hi, message from client')
+            // ws.send('hi, message from client')
         }
         ws.onmessage = function(event){
-            console.log(event)
+            // console.log(JSON.parse(event.data))
+            const chat = JSON.parse(event.data)
+            document.getElementById('display-box').innerHTML += (chat.msg + '\n')
         }
         ws.onerror = function(error){
             console.log(error)
@@ -23,6 +32,22 @@
         ws.onclose = function(event){
             console.log(event)
         }
+
+        
+        document.getElementById('send-btn').onclick = function(event){
+            const message = document.getElementById('chat')
+            const chat = message.value
+            ws.send(JSON.stringify({
+                'msg': chat
+            }))
+
+            message.value = ''
+        }
+
+
+
+
+
     </script>
 </body>
 </html>
