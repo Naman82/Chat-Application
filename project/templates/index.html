@@ -8,5 +8,21 @@
 </head>
 <body>
     <h1>Hello World</h1>
+
+    <script>
+        var ws = new WebSocket("ws://127.0.0.1:8000/ws/sc/")
+        ws.onopen = function(){
+            ws.send('hi, message from client')
+        }
+        ws.onmessage = function(event){
+            console.log(event)
+        }
+        ws.onerror = function(error){
+            console.log(error)
+        }
+        ws.onclose = function(event){
+            console.log(event)
+        }
+    </script>
 </body>
 </html>
